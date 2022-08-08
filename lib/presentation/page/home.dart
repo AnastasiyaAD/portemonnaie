@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:portemonnaie/presentation/widget/bottomAppBarWithButton.dart';
+import 'package:portemonnaie/presentation/widget/moneyCard.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -23,8 +24,7 @@ class _HomeState extends State<Home> {
             Text(date)
           ])),
       body: ListView(
-        padding: const EdgeInsets.only(bottom: 88),
-        children: <Widget>[],
+        children: <Widget>[MoneyCard()],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
