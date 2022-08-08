@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
+import 'package:portemonnaie/presentation/page/buyPage.dart';
 import 'package:portemonnaie/presentation/widget/bottomAppBarWithButton.dart';
 import 'package:portemonnaie/presentation/widget/moneyCard.dart';
 
@@ -67,7 +68,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
        
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BuyPage()),
+          );
+        },
         tooltip: 'Добавить траты',
         child: const Icon(Icons.add),
       ),
