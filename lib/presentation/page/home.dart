@@ -58,10 +58,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             ),
           ),
           Center(
-            child: Text("It's rainy here"),
+            child: Text("Список покупок"),
           ),
           Center(
-            child: Text("It's sunny here"),
+            child: Text("Настройки"),
           ),
         ],
       ),

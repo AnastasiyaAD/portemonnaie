@@ -17,20 +17,20 @@ class _BottomAppBarWithButtonState extends State<BottomAppBarWithButton> {
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         child: Row(
           children: <Widget>[
-            IconButton(
-              tooltip: 'Open navigation menu',
-              icon: const Icon(Icons.menu),
-              onPressed: () {},
-            ),
+            // IconButton(
+            //   tooltip: 'Open navigation menu',
+            //   icon: const Icon(Icons.menu),
+            //   onPressed: () {},
+            // ),
             const Spacer(),
-            IconButton(
-              tooltip: 'Search',
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
+            // IconButton(
+            //   tooltip: 'Search',
+            //   icon: const Icon(Icons.search),
+            //   onPressed: () {},
+            // ),
             IconButton(
               tooltip: 'Favorite',
-              icon: const Icon(Icons.favorite),
+              icon: const Icon(Icons.favorite, color: Colors.blue,),
               onPressed: () {},
             ),
           ],
