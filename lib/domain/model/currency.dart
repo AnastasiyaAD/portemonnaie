@@ -5,7 +5,7 @@ class Currency {
     final String name; 
 
   Currency({
-    @required this.id,
-    @required this.name,
+    required this.id,
+    required this.name,
   });
 }

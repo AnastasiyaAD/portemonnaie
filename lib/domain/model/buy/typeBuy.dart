@@ -5,7 +5,7 @@ class TypeBuy {
     final String name; 
 
   TypeBuy({
-    @required this.id,
-    @required this.name,
+    required this.id,
+    required this.name,
   });
 }

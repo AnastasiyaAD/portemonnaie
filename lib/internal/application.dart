@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:portemonnaie/presentation/home.dart';
+import 'package:portemonnaie/presentation/page/home.dart';
 
 class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Portemonnaie',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
