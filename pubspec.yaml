@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   sqflite:
   date_format: ^2.0.6
+  dropdown_button2: ^1.7.1
 
 dev_dependencies:
   flutter_test:
