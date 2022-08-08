@@ -10,11 +10,12 @@ class Buy {
     final DateTime date;
 
   Buy({
-    @required this.name,
-    @required this.storeID,
-    @required this.typeID,
-    @required this.currencyID,
-    @required this.discount,
-    @required this.price,
+    required this.name,
+    required this.storeID,
+    required this.typeID,
+    required this.currencyID,
+    required this.discount,
+    required this.price,
+    required this.date,
   });
 }

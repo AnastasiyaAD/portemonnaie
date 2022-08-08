@@ -5,7 +5,7 @@ class Store {
     final String name; 
 
   Store({
-    @required this.id,
-    @required this.name,
+    required this.id,
+    required this.name,
   });
 }
