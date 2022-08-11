@@ -1,7 +1,7 @@
-import 'dart:html';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:portemonnaie/domain/model/buy/shop.dart';
 import 'package:portemonnaie/presentation/widget/addNamePopup.dart';
 
 class BuyForm extends StatefulWidget {
@@ -16,7 +16,7 @@ class BuyForm extends StatefulWidget {
 class BuyFormState extends State<BuyForm> {
   final _formKey = GlobalKey<FormState>();
   final _formKeyShop = GlobalKey<FormState>();
-
+  var shopBox = Hive.box<Shop>('shop');
   String? selectedValue;
   @override
   Widget build(BuildContext context) {
@@ -94,24 +94,27 @@ class BuyFormState extends State<BuyForm> {
                                           (BuildContext context, _, __) =>
                                               const AddNamePopup()));
                               if (value.isNotEmpty) {
-                                // debugPrint('AddNamePopup: $value');
-                                // TODO: сделать сохранение магазина в память устройства
-                                genderItems.add(value);
+                                shopBox.put(
+                                    shopBox.values.length, Shop(name: value));
+                                  setState(() {});
+                                // debugPrint(
+                                //     'AddNamePopup:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${shopBox.values.}');
                               }
                             },
                           )
                         ]),
-                  ), 
-                  for (var item in genderItems) 
-                    DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                    )
+                  ),
+                  ...shopBox.values.map((item) =>
+                  DropdownMenuItem<String>(
+                    value: item.name,
+                    child: Text(
+                      item.name,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
+                  .toList(),
                 ],
                 validator: (value) {
                   if (value == null) {
