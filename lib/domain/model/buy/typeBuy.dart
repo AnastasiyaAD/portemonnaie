@@ -1,11 +1,13 @@
-import 'package:meta/meta.dart';
+import 'package:hive/hive.dart';
+ 
+part 'typeBuy.g.dart';
 
+@HiveType(typeId: 1)
 class TypeBuy {
-    final int id;
-    final String name; 
+  @HiveField(0)
+  final String name;
 
   TypeBuy({
-    required this.id,
     required this.name,
   });
 }
