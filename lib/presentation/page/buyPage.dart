@@ -26,7 +26,7 @@ class _BuyPageState extends State<BuyPage> with TickerProviderStateMixin {
             ),
             const Padding(
               padding: EdgeInsets.all(16.0), 
-              child: Text('Казна пустеет, Милорд!',style: TextStyle(fontSize: 20.0, wordSpacing: 4))),
+              child: Text('Казна пустеет, Милорд!',style: TextStyle(fontSize: 14.0, wordSpacing: 4))),
           ]),
         ),
       body: const Center(child: BuyForm())
