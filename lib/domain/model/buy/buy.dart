@@ -5,19 +5,19 @@ part 'buy.g.dart';
 @HiveType(typeId: 3)
 class Buy {
     @HiveField(0)
-    final String name;
+    late final String name;
     @HiveField(1)
-    final int storeID;
+    late final int storeID;
     @HiveField(2)
-    final int typeID;
+    late final int typeID;
     @HiveField(3)
-    final int currencyID;
+    late final int currencyID;
     @HiveField(4)
-    final double discount;
+    late final double discount;
     @HiveField(5)
-    final double price;
+    late final double price;
     @HiveField(6) 
-    final DateTime date;
+    late final DateTime date;
 
   Buy({
     required this.name,
@@ -28,4 +28,15 @@ class Buy {
     required this.price,
     required this.date,
   });
+  Map<String, dynamic> toBuyString() {
+    return {
+      'name': name,
+      'storeID': storeID,
+      'typeID': typeID,
+      'currencyID': currencyID,
+      'discount': discount,
+      'price': price,
+      'date': date,
+    };
+  }
 }
