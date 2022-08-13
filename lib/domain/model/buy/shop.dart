@@ -1,13 +1,12 @@
 import 'package:hive/hive.dart';
  
-part 'currency.g.dart';
-
-@HiveType(typeId: 2)
-class Currency {
+part 'shop.g.dart';
+@HiveType(typeId: 0)
+class Shop {
   @HiveField(0)
   final String name;
 
-  Currency({
+  Shop({
     required this.name,
   });
 }
