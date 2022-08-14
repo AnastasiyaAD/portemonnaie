@@ -74,7 +74,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      formatDate(selectedDate, [mm,'/',yyyy]),
+                      formatDate(selectedDate, [mm, '/', yyyy]),
                       style: Theme.of(context).textTheme.headline6,
                       textAlign: TextAlign.center,
                     ),
@@ -95,9 +95,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         });
                       },
                       icon: const Icon(Icons.calendar_today),
-                    ),],
+                    ),
+                  ],
                 ),
-                
                 ...typeBuyBox.keys.map((key) => TypeBuyCard(
                       index: key,
                       date: selectedDate,
@@ -131,9 +131,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 switch (tab) {
                   case 0:
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const BuyPage()),
-                    );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const BuyPage()))
+                        .then((value) {
+                      setState(() {});
+                    });
                     break;
                   case 1:
                     break;

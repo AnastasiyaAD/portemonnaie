@@ -435,7 +435,7 @@ class BuyFormState extends State<BuyForm> {
                   debugPrint(
                       'Value Shop:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${buy.toBuyString()}');
                   buyBox.put(buyBox.values.length, buy);
-                  _incrementtotalSum(price);
+                  _incrementtotalSum(price-discount);
 
                   Navigator.pop(context);
                 },

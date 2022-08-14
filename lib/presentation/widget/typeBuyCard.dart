@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:portemonnaie/domain/model/buy/buy.dart';
 import 'package:portemonnaie/domain/model/buy/typeBuy.dart';
 import 'dart:math' as math;
 
@@ -18,13 +19,31 @@ class TypeBuyCard extends StatefulWidget {
 class _TypeBuyCardState extends State<TypeBuyCard> {
   late int index;
   late DateTime date;
+  late double totalMonth;
+  var buyBox = Hive.box<Buy>('buy');
   var typeBuyBox = Hive.box<TypeBuy>('typeBuy');
+
+  void getTotalMonth() {
+    setState(() {
+      double sum = 0.0;
+      for (var key in buyBox.keys) {
+        if (buyBox.get(key)?.date.month == date.month &&
+            buyBox.get(key)?.date.year == date.year &&
+            buyBox.get(key)?.typeID == index) {
+          sum += buyBox.get(key)!.price - buyBox.get(key)!.discount;
+        }
+      }
+      totalMonth = sum;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    totalMonth = 0.0;
     index = widget.index;
     date = widget.date;
+    getTotalMonth();
   }
 
   @override
@@ -37,7 +56,8 @@ class _TypeBuyCardState extends State<TypeBuyCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ListBuyPage(indexType: index, date: date)),
+                builder: (context) =>
+                    ListBuyPage(indexType: index, date: date)),
           );
         },
         child: Container(
@@ -71,8 +91,8 @@ class _TypeBuyCardState extends State<TypeBuyCard> {
                                             style:
                                                 const TextStyle(fontSize: 18.0))
                                       ]))),
-                          subtitle: const Text(
-                              "\nВсего за месяц 9999.99 €\nВ неделю: 9999.99 €"),
+                          subtitle: Text(
+                              "\nВсего за месяц $totalMonth €\nВ неделю: ${totalMonth / 4}"),
                         ),
                       ),
                       Expanded(
