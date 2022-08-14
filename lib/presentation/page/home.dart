@@ -100,6 +100,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 
                 ...typeBuyBox.keys.map((key) => TypeBuyCard(
                       index: key,
+                      date: selectedDate,
                     )),
               ],
             ),
