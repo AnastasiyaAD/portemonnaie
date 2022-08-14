@@ -348,6 +348,7 @@ class BuyFormState extends State<BuyForm> {
               //Скидка
               TextFormField(
                 onChanged: (value) {
+                  value.replaceAll(',', '.');
                   discount = double.tryParse(value)!;
                   setState(() {});
                 },
@@ -369,6 +370,7 @@ class BuyFormState extends State<BuyForm> {
               //Цена
               TextFormField(
                 onChanged: (value) {
+                  value.replaceAll(',', '.');
                   price = double.tryParse(value)!;
                   setState(() {});
                 },
@@ -405,6 +407,7 @@ class BuyFormState extends State<BuyForm> {
                 ),
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
+                      locale:const Locale('ru'),
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
