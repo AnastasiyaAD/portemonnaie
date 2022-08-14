@@ -74,15 +74,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      formatDate(selectedDate, [ M]),
-                      style: Theme.of(context).textTheme.headline4,
+                      formatDate(selectedDate, [mm,'/',yyyy]),
+                      style: Theme.of(context).textTheme.headline6,
                       textAlign: TextAlign.center,
                     ),
                     IconButton(
                       onPressed: () {
                         showMonthPicker(
                           context: context,
-                          firstDate: DateTime(DateTime.now().year - 1, 5),
+                          firstDate: DateTime(2022, 8),
                           lastDate: DateTime(DateTime.now().year + 1, 9),
                           initialDate: selectedDate,
                           locale: const Locale("ru"),
