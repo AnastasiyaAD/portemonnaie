@@ -78,7 +78,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   case 0: 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BuyPage()),
+                      MaterialPageRoute(builder: (context) => const BuyPage()),
                     );
                     break;
                   case 1:

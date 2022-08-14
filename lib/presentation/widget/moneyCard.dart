@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MoneyCard extends StatefulWidget {
   const MoneyCard({Key? key}) : super(key: key);
@@ -7,11 +8,24 @@ class MoneyCard extends StatefulWidget {
 }
 
 class _MoneyCardState extends State<MoneyCard> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   int money = 19536;
-  int spent = 0;
+  double spent = 0;
+  Future<void> _incrementtotalSum() async {
+    final SharedPreferences prefs = await _prefs;
+    final double totalSum = (prefs.getDouble('totalSum') ?? 0.0);
+    setState(() {
+      spent = totalSum;
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    _incrementtotalSum();
+  }
   @override
   Widget build(BuildContext context) {
-    int total = 19536 - spent;
+    double total = 19536 - spent;
     return Center(
       child: Card(
         child: InkWell(
