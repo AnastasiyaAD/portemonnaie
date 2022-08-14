@@ -7,6 +7,7 @@ import 'package:portemonnaie/presentation/widget/bottomAppBarWithButton.dart';
 import 'package:portemonnaie/presentation/widget/moneyCard.dart';
 import 'package:portemonnaie/presentation/widget/settingCard.dart';
 import 'package:portemonnaie/presentation/widget/typeBuyCard.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   late TabController _tabController;
+  late DateTime selectedDate;
   static DateTime currentTime = DateTime.now();
   static String date = formatDate(currentTime, [dd, '/', mm, '/', yy]);
   var typeBuyBox = Hive.box<TypeBuy>('typeBuy');
@@ -25,6 +27,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    selectedDate = currentTime;
   }
 
   @override
@@ -67,8 +70,37 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             child: ListView(
               children: <Widget>[
                 const MoneyCard(),
-                ...typeBuyBox.keys
-                      .map((key) =>TypeBuyCard(index: key,)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      formatDate(selectedDate, [ M]),
+                      style: Theme.of(context).textTheme.headline4,
+                      textAlign: TextAlign.center,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showMonthPicker(
+                          context: context,
+                          firstDate: DateTime(DateTime.now().year - 1, 5),
+                          lastDate: DateTime(DateTime.now().year + 1, 9),
+                          initialDate: selectedDate,
+                          locale: const Locale("ru"),
+                        ).then((date) {
+                          if (date != null) {
+                            setState(() {
+                              selectedDate = date;
+                            });
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.calendar_today),
+                    ),],
+                ),
+                
+                ...typeBuyBox.keys.map((key) => TypeBuyCard(
+                      index: key,
+                    )),
               ],
             ),
           ),
@@ -77,14 +109,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
           Center(
             child: ListView(
-              children:  <Widget>[
+              children: <Widget>[
                 const SizedBox(height: 15),
-                Center(child:Text("Настройки", style: Theme.of(context).textTheme.titleLarge,)),
+                Center(
+                    child: Text(
+                  "Настройки",
+                  style: Theme.of(context).textTheme.titleLarge,
+                )),
                 const SizedBox(height: 15),
                 const Align(
-                  alignment: Alignment.bottomCenter,
-                  child:SettingCard()
-                ),
+                    alignment: Alignment.bottomCenter, child: SettingCard()),
               ],
             ),
           ),
@@ -94,7 +128,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ? FloatingActionButton(
               onPressed: () {
                 switch (tab) {
-                  case 0: 
+                  case 0:
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const BuyPage()),
