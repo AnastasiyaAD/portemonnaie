@@ -12,7 +12,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   late TabController _tabController;
   static DateTime currentTime = DateTime.now();
-  static String date = formatDate(currentTime, [dd,'/',mm,'/',yy]);
+  static String date = formatDate(currentTime, [dd, '/', mm, '/', yy]);
+  bool showButton = true;
+  int tab = 0;
 
   @override
   void initState() {
@@ -20,37 +22,40 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _tabController = TabController(length: 3, vsync: this);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisAlignment:MainAxisAlignment.spaceBetween, 
-            children: [
-            const Text('Мы не Рокфеллеры пока!\nМы сэкономим и на соли ...',
-                style: TextStyle(fontSize: 14.0, wordSpacing: 4)),
-            Text(date)
-          ]),
-          bottom: TabBar(
-            controller: _tabController,
-            isScrollable: false,
-            tabs: <Widget>[
-              Tab(
-                icon: Icon(Icons.auto_graph_rounded),
-              ),
-              Tab(
-                icon: Icon(Icons.auto_stories_rounded),
-              ),
-              Tab(
-                icon: Icon(Icons.brightness_5_sharp),
-              ),
-            ],
-          ),
+        automaticallyImplyLeading: false,
+        title:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          const Text('Мы не Рокфеллеры пока!\nМы сэкономим и на соли ...',
+              style: TextStyle(fontSize: 14.0, wordSpacing: 4)),
+          Text(date)
+        ]),
+        bottom: TabBar(
+          onTap: (value) {
+            setState(() {
+              showButton = value != 2;
+              tab = value;
+            });
+          },
+          controller: _tabController,
+          isScrollable: false,
+          tabs: const <Widget>[
+            Tab(
+              icon: Icon(Icons.auto_graph_rounded),
+            ),
+            Tab(
+              icon: Icon(Icons.auto_stories_rounded),
+            ),
+            Tab(
+              icon: Icon(Icons.brightness_5_sharp),
+            ),
+          ],
         ),
-      body:
-      TabBarView(
+      ),
+      body: TabBarView(
         controller: _tabController,
         children: <Widget>[
           Center(
@@ -58,25 +63,32 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               children: const <Widget>[MoneyCard()],
             ),
           ),
-          Center(
+          const Center(
             child: Text("Список покупок"),
           ),
-          Center(
+          const Center(
             child: Text("Настройки"),
           ),
         ],
       ),
-       
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => BuyPage()),
-          );
-        },
-        tooltip: 'Добавить траты',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: showButton
+          ? FloatingActionButton(
+              onPressed: () {
+                switch (tab) {
+                  case 0: 
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BuyPage()),
+                    );
+                    break;
+                  case 1:
+                    break;
+                }
+              },
+              tooltip: 'Добавить',
+              child: const Icon(Icons.add),
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: const BottomAppBarWithButton(),
     );
