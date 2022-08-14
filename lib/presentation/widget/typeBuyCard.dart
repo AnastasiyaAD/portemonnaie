@@ -30,29 +30,31 @@ class _TypeBuyCardState extends State<TypeBuyCard> {
           debugPrint('Card tapped.');
         },
         child: Container(
-          height: 100,
-          color: Colors.white,
+          height: 150,
+          color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.6),
           child: Row(
             children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Expanded(
-                    flex: 2,
-                    child: Icon(Icons.image ,size:36, color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.6),),
-                  ),
-                ),
-              ),
               Expanded(
                 flex: 8,
                 child: Container(
                   alignment: Alignment.topLeft,
                   child: Column(
                     children: [
+                      const SizedBox(height: 15),
                       Expanded(
                         flex: 5,
                         child: ListTile(
-                          title: Text(typeBuyBox.getAt(index)!.name),
+                          title: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(10.0)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [Text(typeBuyBox.getAt(index)!.name, style: const TextStyle(fontSize: 18.0))])
+                              )
+                            ),
                           subtitle: const Text("\nВсего за месяц 9999.99 €\nВ неделю: 9999.99 €"),
                         ),
                       ),
