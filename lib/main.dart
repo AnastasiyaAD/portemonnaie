@@ -7,11 +7,16 @@ import 'package:portemonnaie/domain/model/buy/buy.dart';
 import 'package:portemonnaie/domain/model/buy/typeBuy.dart';
 import 'package:portemonnaie/domain/model/buy/shop.dart';
 import 'package:portemonnaie/domain/model/currency.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'internal/application.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Directory appDocDir = await getApplicationDocumentsDirectory();
+  final prefs = await SharedPreferences.getInstance();
+  if(prefs.getDouble('totalSum')==null){
+    await prefs.setDouble('totalSum', 0.0);
+  }
   String appDocPath = appDocDir.path;
   Hive.init(appDocPath);
   Hive.registerAdapter(BuyAdapter());

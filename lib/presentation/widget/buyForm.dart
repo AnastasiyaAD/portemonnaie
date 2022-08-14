@@ -7,6 +7,7 @@ import 'package:portemonnaie/domain/model/buy/shop.dart';
 import 'package:portemonnaie/domain/model/buy/typeBuy.dart';
 import 'package:portemonnaie/domain/model/currency.dart';
 import 'package:portemonnaie/presentation/widget/addNamePopup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BuyForm extends StatefulWidget {
   const BuyForm({super.key});
@@ -18,6 +19,20 @@ class BuyForm extends StatefulWidget {
 }
 
 class BuyFormState extends State<BuyForm> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<double> _totalSum;
+
+  Future<void> _incrementtotalSum(value) async {
+    final SharedPreferences prefs = await _prefs;
+    final double totalSum = (prefs.getDouble('totalSum') ?? 0.0) + value;
+    setState(() {
+      _totalSum = prefs.setDouble('totalSum', totalSum).then((bool success) {
+        debugPrint("totalSum !!!!!!!!! $totalSum");
+        return totalSum;
+      });
+    });
+  }
+
   TextEditingController dateinput = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _formKeyShop = GlobalKey<FormState>();
@@ -38,8 +53,11 @@ class BuyFormState extends State<BuyForm> {
   static String date = formatDate(currentTime, [dd, '/', mm, '/', yy]);
   @override
   void initState() {
-    dateinput.text = date;
     super.initState();
+    dateinput.text = date;
+    _totalSum = _prefs.then((SharedPreferences prefs) {
+      return prefs.getDouble('totalSum') ?? 0.0;
+    });
   }
 
   @override
@@ -154,9 +172,7 @@ class BuyFormState extends State<BuyForm> {
                   storeID = int.tryParse(value.toString())!;
                   setState(() {});
                 },
-                onSaved: (value) {
-                  
-                },
+                onSaved: (value) {},
               ),
               const SizedBox(height: 15),
               //Тип товара
@@ -240,9 +256,7 @@ class BuyFormState extends State<BuyForm> {
                   typeID = int.tryParse(value.toString())!;
                   setState(() {});
                 },
-                onSaved: (value) {
-                  
-                },
+                onSaved: (value) {},
               ),
               const SizedBox(height: 15),
               //Валюта
@@ -326,9 +340,7 @@ class BuyFormState extends State<BuyForm> {
                   currencyID = int.tryParse(value.toString())!;
                   setState(() {});
                 },
-                onSaved: (value) {
-                  
-                },
+                onSaved: (value) {},
               ),
               const SizedBox(height: 15),
               //Скидка
@@ -420,7 +432,9 @@ class BuyFormState extends State<BuyForm> {
                       date: dateBuy);
                   debugPrint(
                       'Value Shop:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${buy.toBuyString()}');
-                  buyBox.put(buyBox.values.length,buy);
+                  buyBox.put(buyBox.values.length, buy);
+                  _incrementtotalSum(price);
+
                   Navigator.pop(context);
                 },
                 child: const Text('Сохранить'),
