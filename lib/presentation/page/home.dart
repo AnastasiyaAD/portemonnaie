@@ -3,6 +3,7 @@ import 'package:date_format/date_format.dart';
 import 'package:portemonnaie/presentation/page/buyPage.dart';
 import 'package:portemonnaie/presentation/widget/bottomAppBarWithButton.dart';
 import 'package:portemonnaie/presentation/widget/moneyCard.dart';
+import 'package:portemonnaie/presentation/widget/settingCard.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -66,8 +67,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           const Center(
             child: Text("Список покупок"),
           ),
-          const Center(
-            child: Text("Настройки"),
+          Center(
+            child: ListView(
+              children:  <Widget>[
+                const SizedBox(height: 15),
+                Center(child:Text("Настройки", style: Theme.of(context).textTheme.titleLarge,)),
+                const SizedBox(height: 15),
+                const Align(
+                  alignment: Alignment.bottomCenter,
+                  child:SettingCard()
+                ),
+              ],
+            ),
           ),
         ],
       ),

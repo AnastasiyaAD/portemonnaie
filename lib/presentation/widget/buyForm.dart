@@ -38,9 +38,12 @@ class BuyFormState extends State<BuyForm> {
   final _formKeyShop = GlobalKey<FormState>();
   final _formKeyTypeBuy = GlobalKey<FormState>();
   final _formKeyCurrency = GlobalKey<FormState>();
+
   var shopBox = Hive.box<Shop>('shop');
   var typeBuyBox = Hive.box<TypeBuy>('typeBuy');
   var currencyBox = Hive.box<Currency>('currency');
+  var buyBox = Hive.box<Buy>('buy');
+  
   String name = '';
   int storeID = 0;
   int typeID = 0;
@@ -48,7 +51,6 @@ class BuyFormState extends State<BuyForm> {
   double discount = 0.0;
   double price = 0.0;
   DateTime dateBuy = DateTime.now();
-  var buyBox = Hive.box<Buy>('buy');
   static DateTime currentTime = DateTime.now();
   static String date = formatDate(currentTime, [dd, '/', mm, '/', yy]);
   @override
