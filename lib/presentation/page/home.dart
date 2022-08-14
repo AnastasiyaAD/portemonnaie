@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
+import 'package:hive/hive.dart';
+import 'package:portemonnaie/domain/model/buy/typeBuy.dart';
 import 'package:portemonnaie/presentation/page/buyPage.dart';
 import 'package:portemonnaie/presentation/widget/bottomAppBarWithButton.dart';
 import 'package:portemonnaie/presentation/widget/moneyCard.dart';
 import 'package:portemonnaie/presentation/widget/settingCard.dart';
+import 'package:portemonnaie/presentation/widget/typeBuyCard.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,6 +17,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late TabController _tabController;
   static DateTime currentTime = DateTime.now();
   static String date = formatDate(currentTime, [dd, '/', mm, '/', yy]);
+  var typeBuyBox = Hive.box<TypeBuy>('typeBuy');
   bool showButton = true;
   int tab = 0;
 
@@ -61,7 +65,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         children: <Widget>[
           Center(
             child: ListView(
-              children: const <Widget>[MoneyCard()],
+              children: <Widget>[
+                const MoneyCard(),
+                ...typeBuyBox.keys
+                      .map((key) =>TypeBuyCard(index: key,)),
+              ],
             ),
           ),
           const Center(
