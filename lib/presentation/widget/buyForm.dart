@@ -351,7 +351,7 @@ class BuyFormState extends State<BuyForm> {
                   discount = double.tryParse(value)!;
                   setState(() {});
                 },
-                keyboardType: TextInputType.number,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   icon: const Icon(Icons.percent_rounded, size: 23),
                   contentPadding: const EdgeInsets.symmetric(
@@ -372,7 +372,7 @@ class BuyFormState extends State<BuyForm> {
                   price = double.tryParse(value)!;
                   setState(() {});
                 },
-                keyboardType: TextInputType.number,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   icon: const Icon(Icons.euro_symbol_rounded, size: 23),
                   contentPadding: const EdgeInsets.symmetric(
