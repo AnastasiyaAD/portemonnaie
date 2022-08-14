@@ -92,7 +92,7 @@ class _TypeBuyCardState extends State<TypeBuyCard> {
                                                 const TextStyle(fontSize: 18.0))
                                       ]))),
                           subtitle: Text(
-                              "\nВсего за месяц $totalMonth €\nВ неделю: ${totalMonth / 4}"),
+                              "\nВсего за месяц ${double.parse((totalMonth).toStringAsFixed(2))} €\nВ неделю: ${double.parse((totalMonth / 4).toStringAsFixed(2))}"),
                         ),
                       ),
                       Expanded(

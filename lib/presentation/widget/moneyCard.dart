@@ -15,7 +15,7 @@ class _MoneyCardState extends State<MoneyCard> {
     final SharedPreferences prefs = await _prefs;
     final double totalSum = (prefs.getDouble('totalSum') ?? 0.0);
     setState(() {
-      spent = totalSum;
+      spent = double.parse((totalSum).toStringAsFixed(2));
     });
   }
   @override
