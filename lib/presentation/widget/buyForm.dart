@@ -22,6 +22,10 @@ class BuyFormState extends State<BuyForm> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<double> _totalSum;
 
+  TextEditingController dateinput = TextEditingController();
+  TextEditingController controllerPrice = TextEditingController();
+  TextEditingController controllerDiscount = TextEditingController();
+
   Future<void> _incrementtotalSum(value) async {
     final SharedPreferences prefs = await _prefs;
     final double totalSum = (prefs.getDouble('totalSum') ?? 0.0) + value;
@@ -33,7 +37,6 @@ class BuyFormState extends State<BuyForm> {
     });
   }
 
-  TextEditingController dateinput = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _formKeyShop = GlobalKey<FormState>();
   final _formKeyTypeBuy = GlobalKey<FormState>();
@@ -43,7 +46,7 @@ class BuyFormState extends State<BuyForm> {
   var typeBuyBox = Hive.box<TypeBuy>('typeBuy');
   var currencyBox = Hive.box<Currency>('currency');
   var buyBox = Hive.box<Buy>('buy');
-  
+
   String name = '';
   int storeID = 0;
   int typeID = 0;
@@ -51,12 +54,15 @@ class BuyFormState extends State<BuyForm> {
   double discount = 0.0;
   double price = 0.0;
   DateTime dateBuy = DateTime.now();
+  int repeat = 1;
   static DateTime currentTime = DateTime.now();
   static String date = formatDate(currentTime, [dd, '/', mm, '/', yy]);
   @override
   void initState() {
     super.initState();
     dateinput.text = date;
+    controllerPrice.text = price.toString();
+    controllerDiscount.text = discount.toString();
     _totalSum = _prefs.then((SharedPreferences prefs) {
       return prefs.getDouble('totalSum') ?? 0.0;
     });
@@ -347,12 +353,17 @@ class BuyFormState extends State<BuyForm> {
               const SizedBox(height: 15),
               //Скидка
               TextFormField(
+                controller: controllerDiscount,
+                onTap: () {
+                  controllerDiscount.text = '';
+                },
                 onChanged: (value) {
                   value = value.replaceAll(RegExp(r','), '.');
                   discount = double.tryParse(value)!;
                   setState(() {});
                 },
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   icon: const Icon(Icons.percent_rounded, size: 23),
                   contentPadding: const EdgeInsets.symmetric(
@@ -369,12 +380,17 @@ class BuyFormState extends State<BuyForm> {
               const SizedBox(height: 15),
               //Цена
               TextFormField(
+                controller: controllerPrice,
+                onTap: () {
+                  controllerPrice.text = '';
+                },
                 onChanged: (value) {
                   value = value.replaceAll(RegExp(r','), '.');
                   price = double.tryParse(value) ?? 0.00;
                   setState(() {});
                 },
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   icon: const Icon(Icons.euro_symbol_rounded, size: 23),
                   contentPadding: const EdgeInsets.symmetric(
@@ -422,22 +438,46 @@ class BuyFormState extends State<BuyForm> {
                   }
                 },
               ),
+              const SizedBox(height: 15),
+              //Повторить
+              TextFormField(
+                onChanged: (value) {
+                  repeat = int.tryParse(value)!;
+                  setState(() {});
+                },
+                initialValue: repeat.toString(),
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  icon: const Icon(Icons.percent_rounded, size: 23),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 20,
+                  ),
+                  hintText: 'Повторить',
+                  hintStyle: const TextStyle(fontSize: 14),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
               const SizedBox(height: 30),
               //Кнопка
               TextButton(
                 onPressed: () {
-                  Buy buy = Buy(
-                      name: name,
-                      storeID: storeID,
-                      typeID: typeID,
-                      currencyID: currencyID,
-                      discount: discount,
-                      price: price,
-                      date: dateBuy);
-                  debugPrint(
-                      'Value Shop:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${buy.toBuyString()}');
-                  buyBox.put(buyBox.values.length, buy);
-                  _incrementtotalSum(price-discount);
+                  for (var i = 0; i < repeat; i++) {
+                    Buy buy = Buy(
+                        name: name,
+                        storeID: storeID,
+                        typeID: typeID,
+                        currencyID: currencyID,
+                        discount: discount,
+                        price: price,
+                        date: dateBuy);
+                    debugPrint(
+                        'Value Shop:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${buy.toBuyString()}');
+                    buyBox.put(buyBox.values.length, buy);
+                    _incrementtotalSum(price - discount);
+                  }
 
                   Navigator.pop(context);
                 },
