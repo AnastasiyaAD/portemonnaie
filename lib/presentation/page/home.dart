@@ -74,7 +74,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      formatDate(selectedDate, [mm, '/', yyyy]),
+                      formatDate(selectedDate, [mm, '.', yyyy]),
                       style: Theme.of(context).textTheme.headline6,
                       textAlign: TextAlign.center,
                     ),
