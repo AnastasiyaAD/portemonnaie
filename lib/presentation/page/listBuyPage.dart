@@ -1,12 +1,8 @@
-import 'dart:ffi';
-
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:portemonnaie/domain/model/buy/buy.dart';
-import 'package:portemonnaie/domain/model/buy/typeBuy.dart';
 import 'package:portemonnaie/presentation/widget/buyCard.dart';
-import 'package:portemonnaie/presentation/widget/buyForm.dart';
 
 class ListBuyPage extends StatefulWidget {
   int indexType;
@@ -39,6 +35,7 @@ class _ListBuyPageState extends State<ListBuyPage>
         }
       }
     }
+    days.sort();
   }
 
   @override
@@ -70,7 +67,7 @@ class _ListBuyPageState extends State<ListBuyPage>
           ]),
           bottom: TabBar(
               controller: _tabController,
-              isScrollable: false,
+              isScrollable: true,
               tabs: List.generate(days.length, (index) {
                 return Tab(
                   text: "${days[index]}.${formatDate(date, [mm, '.', yyyy])}",
