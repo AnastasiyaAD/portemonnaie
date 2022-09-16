@@ -17,6 +17,9 @@ void main() async {
   if(prefs.getDouble('totalSum')==null){
     await prefs.setDouble('totalSum', 0.0);
   }
+  if(prefs.getDouble('allMoney')==null){
+    await prefs.setDouble('allMoney', 19536.0);
+  }
   String appDocPath = appDocDir.path;
   Hive.init(appDocPath);
   Hive.registerAdapter(BuyAdapter());
