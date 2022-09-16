@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:portemonnaie/presentation/page/home.dart';
 import 'package:portemonnaie/presentation/widget/buyForm.dart';
 
 class BuyPage extends StatefulWidget {
+  const BuyPage({Key? key}) : super(key: key);
+
   @override
   _BuyPageState createState() => _BuyPageState();
 }
