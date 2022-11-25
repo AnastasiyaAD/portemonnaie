@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:portemonnaie/presentation/widget/addNamePopup.dart';
+import 'package:portemonnaie/presentation/widget/addIntPopup.dart';
 
 class MoneyCard extends StatefulWidget {
   const MoneyCard({Key? key}) : super(key: key);
@@ -42,7 +42,7 @@ class _MoneyCardState extends State<MoneyCard> {
 
   @override
   Widget build(BuildContext context) {
-    double total = money - spent;
+    double total = double.parse((money - spent).toStringAsFixed(2));
     return Center(
         child: Card(
       child: InkWell(
@@ -56,22 +56,25 @@ class _MoneyCardState extends State<MoneyCard> {
             child: ListTile(
                 leading: const Icon(Icons.assured_workload_rounded,
                     size: 36, color: Colors.green),
-                title: Row(children: [
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                   Text("$total €", style: const TextStyle(fontSize: 28.0)),
                   IconButton(
-                    icon: const Icon(Icons.add),
+                    iconSize:28,
+                    icon: const Icon(Icons.add_circle_rounded, color: Colors.blue),
                     onPressed: () async {
                       String value = await Navigator.push(
                           context,
                           PageRouteBuilder(
                               opaque: false,
                               pageBuilder: (BuildContext context, _, __) =>
-                                  const AddNamePopup()));
+                                  const AddIntPopup()));
                       if (value.isNotEmpty) {
                         int addValue = int.parse(value);
                         await addMoney(addValue);
                         await _incrementtotalSum();
-                        total = money - spent;
+                        total = double.parse((money - spent).toStringAsFixed(2));
                       }
                     },
                   )

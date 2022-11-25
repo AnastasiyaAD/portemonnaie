@@ -69,7 +69,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           Center(
             child: ListView(
               children: <Widget>[
-                const MoneyCard(),
+                // const MoneyCard(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
