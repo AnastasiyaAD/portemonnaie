@@ -34,11 +34,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(161, 134, 100, 235),
         automaticallyImplyLeading: false,
         title:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          const Text('Мы не Рокфеллеры пока!\nМы сэкономим и на соли ...',
-              style: TextStyle(fontSize: 14.0, wordSpacing: 4)),
+          const Text('Cегодня хороший день',
+              style: TextStyle(fontSize: 17.0, wordSpacing: 4)),
           Text(date)
         ]),
         bottom: TabBar(
@@ -49,7 +50,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             });
           },
           controller: _tabController,
-          isScrollable: false,
           tabs: const <Widget>[
             Tab(
               icon: Icon(Icons.auto_graph_rounded),
@@ -75,7 +75,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   children: [
                     Text(
                       formatDate(selectedDate, [mm, '.', yyyy]),
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.headlineSmall,
                       textAlign: TextAlign.center,
                     ),
                     IconButton(
@@ -146,8 +146,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               child: const Icon(Icons.add),
             )
           : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const BottomAppBarWithButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      bottomNavigationBar: const BottomAppBar(
+        color: Color.fromARGB(161, 134, 100, 235),
+      ),
     );
   }
 }

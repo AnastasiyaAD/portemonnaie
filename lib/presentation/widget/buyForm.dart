@@ -19,23 +19,23 @@ class BuyForm extends StatefulWidget {
 }
 
 class BuyFormState extends State<BuyForm> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late Future<double> _totalSum;
+  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  // late Future<double> _totalSum;
 
   TextEditingController dateinput = TextEditingController();
   TextEditingController controllerPrice = TextEditingController();
   TextEditingController controllerDiscount = TextEditingController();
 
-  Future<void> _incrementtotalSum(value) async {
-    final SharedPreferences prefs = await _prefs;
-    final double totalSum = (prefs.getDouble('totalSum') ?? 0.0) + value;
-    setState(() {
-      _totalSum = prefs.setDouble('totalSum', totalSum).then((bool success) {
-        debugPrint("totalSum !!!!!!!!! $totalSum");
-        return totalSum;
-      });
-    });
-  }
+  // Future<void> _incrementtotalSum(value) async {
+  //   final SharedPreferences prefs = await _prefs;
+  //   final double totalSum = (prefs.getDouble('totalSum') ?? 0.0) + value;
+  //   setState(() {
+  //     _totalSum = prefs.setDouble('totalSum', totalSum).then((bool success) {
+  //       debugPrint("totalSum !!!!!!!!! $totalSum");
+  //       return totalSum;
+  //     });
+  //   });
+  // }
 
   final _formKey = GlobalKey<FormState>();
   final _formKeyShop = GlobalKey<FormState>();
@@ -63,9 +63,9 @@ class BuyFormState extends State<BuyForm> {
     dateinput.text = date;
     controllerPrice.text = price.toString();
     controllerDiscount.text = discount.toString();
-    _totalSum = _prefs.then((SharedPreferences prefs) {
-      return prefs.getDouble('totalSum') ?? 0.0;
-    });
+    // _totalSum = _prefs.then((SharedPreferences prefs) {
+    //   return prefs.getDouble('totalSum') ?? 0.0;
+    // });
   }
 
   @override
@@ -81,25 +81,25 @@ class BuyFormState extends State<BuyForm> {
             children: [
               const SizedBox(height: 15),
               //Название
-              TextFormField(
-                onChanged: (value) {
-                  name = value;
-                  setState(() {});
-                },
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.bakery_dining_rounded),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
-                  ),
-                  hintText: 'Название',
-                  hintStyle: const TextStyle(fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
+              // TextFormField(
+              //   onChanged: (value) {
+              //     name = value;
+              //     setState(() {});
+              //   },
+              //   decoration: InputDecoration(
+              //     icon: const Icon(Icons.bakery_dining_rounded),
+              //     contentPadding: const EdgeInsets.symmetric(
+              //       horizontal: 20,
+              //       vertical: 20,
+              //     ),
+              //     hintText: 'Название',
+              //     hintStyle: const TextStyle(fontSize: 14),
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(15),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 15),
               //Магазин
               DropdownButtonFormField2(
                 key: _formKeyShop,
@@ -112,10 +112,11 @@ class BuyFormState extends State<BuyForm> {
                   ),
                 ),
                 isExpanded: true,
-                hint: const Text(
-                  'Выбери магазин',
+                hint: const Center(
+                    child: Text(
+                  'Магазин',
                   style: TextStyle(fontSize: 14),
-                ),
+                )),
                 icon: const Icon(
                   Icons.arrow_drop_down,
                   color: Colors.black45,
@@ -198,10 +199,11 @@ class BuyFormState extends State<BuyForm> {
                   ),
                 ),
                 isExpanded: true,
-                hint: const Text(
-                  'Выбери тип товара',
+                hint: const Center(
+                    child: Text(
+                  'Tип товара',
                   style: TextStyle(fontSize: 14),
-                ),
+                )),
                 icon: const Icon(
                   Icons.arrow_drop_down,
                   color: Colors.black45,
@@ -267,117 +269,117 @@ class BuyFormState extends State<BuyForm> {
                 onSaved: (value) {},
               ),
               const SizedBox(height: 15),
-              //Валюта
-              DropdownButtonFormField2(
-                key: _formKeyCurrency,
-                decoration: InputDecoration(
-                  icon: const Icon(
-                    Icons.currency_exchange_rounded,
-                    size: 23,
-                  ),
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                isExpanded: true,
-                hint: const Text(
-                  'Выбери валюту',
-                  style: TextStyle(fontSize: 14),
-                ),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-                buttonHeight: 60,
-                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                items: [
-                  DropdownMenuItem<String>(
-                    enabled: false,
-                    value: "",
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Добавить валюту "),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.add_circle_outline_rounded,
-                              color: Colors.blue,
-                            ),
-                            onPressed: () async {
-                              String value = await Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                      opaque: false,
-                                      pageBuilder:
-                                          (BuildContext context, _, __) =>
-                                              const AddNamePopup()));
-                              if (value.isNotEmpty) {
-                                currencyBox.put(currencyBox.values.length,
-                                    Currency(name: value));
-                                setState(() {});
-                              }
-                            },
-                          )
-                        ]),
-                  ),
-                  ...currencyBox.keys
-                      .map((key) => DropdownMenuItem<String>(
-                            value: key.toString(),
-                            child: Text(
-                              currencyBox.getAt(key)!.name,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                ],
-                validator: (value) {
-                  if (value == null) {
-                    return 'А как же валюта?!';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  currencyID = int.tryParse(value.toString())!;
-                  setState(() {});
-                },
-                onSaved: (value) {},
-              ),
-              const SizedBox(height: 15),
+              // //Валюта
+              // DropdownButtonFormField2(
+              //   key: _formKeyCurrency,
+              //   decoration: InputDecoration(
+              //     icon: const Icon(
+              //       Icons.currency_exchange_rounded,
+              //       size: 23,
+              //     ),
+              //     isDense: true,
+              //     contentPadding: EdgeInsets.zero,
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(15),
+              //     ),
+              //   ),
+              //   isExpanded: true,
+              //   hint: const Text(
+              //     'Выбери валюту',
+              //     style: TextStyle(fontSize: 14),
+              //   ),
+              //   icon: const Icon(
+              //     Icons.arrow_drop_down,
+              //     color: Colors.black45,
+              //   ),
+              //   iconSize: 30,
+              //   buttonHeight: 60,
+              //   buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+              //   dropdownDecoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(15),
+              //   ),
+              //   items: [
+              //     DropdownMenuItem<String>(
+              //       enabled: false,
+              //       value: "",
+              //       child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             const Text("Добавить валюту "),
+              //             IconButton(
+              //               icon: const Icon(
+              //                 Icons.add_circle_outline_rounded,
+              //                 color: Colors.blue,
+              //               ),
+              //               onPressed: () async {
+              //                 String value = await Navigator.push(
+              //                     context,
+              //                     PageRouteBuilder(
+              //                         opaque: false,
+              //                         pageBuilder:
+              //                             (BuildContext context, _, __) =>
+              //                                 const AddNamePopup()));
+              //                 if (value.isNotEmpty) {
+              //                   currencyBox.put(currencyBox.values.length,
+              //                       Currency(name: value));
+              //                   setState(() {});
+              //                 }
+              //               },
+              //             )
+              //           ]),
+              //     ),
+              //     ...currencyBox.keys
+              //         .map((key) => DropdownMenuItem<String>(
+              //               value: key.toString(),
+              //               child: Text(
+              //                 currencyBox.getAt(key)!.name,
+              //                 style: const TextStyle(
+              //                   fontSize: 14,
+              //                 ),
+              //               ),
+              //             ))
+              //         .toList(),
+              //   ],
+              //   validator: (value) {
+              //     if (value == null) {
+              //       return 'А как же валюта?!';
+              //     }
+              //     return null;
+              //   },
+              //   onChanged: (value) {
+              //     currencyID = int.tryParse(value.toString())!;
+              //     setState(() {});
+              //   },
+              //   onSaved: (value) {},
+              // ),
+              // const SizedBox(height: 15),
               //Скидка
-              TextFormField(
-                controller: controllerDiscount,
-                onTap: () {
-                  controllerDiscount.text = '';
-                },
-                onChanged: (value) {
-                  value = value.replaceAll(RegExp(r','), '.');
-                  discount = double.tryParse(value)!;
-                  setState(() {});
-                },
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.percent_rounded, size: 23),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
-                  ),
-                  hintText: 'Скидка',
-                  hintStyle: const TextStyle(fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
+              // TextFormField(
+              //   controller: controllerDiscount,
+              //   onTap: () {
+              //     controllerDiscount.text = '';
+              //   },
+              //   onChanged: (value) {
+              //     value = value.replaceAll(RegExp(r','), '.');
+              //     discount = double.tryParse(value)!;
+              //     setState(() {});
+              //   },
+              //   keyboardType:
+              //       const TextInputType.numberWithOptions(decimal: true),
+              //   decoration: InputDecoration(
+              //     icon: const Icon(Icons.percent_rounded, size: 23),
+              //     contentPadding: const EdgeInsets.symmetric(
+              //       horizontal: 20,
+              //       vertical: 20,
+              //     ),
+              //     hintText: 'Скидка',
+              //     hintStyle: const TextStyle(fontSize: 14),
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(15),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 15),
               //Цена
               TextFormField(
                 controller: controllerPrice,
@@ -440,27 +442,27 @@ class BuyFormState extends State<BuyForm> {
               ),
               const SizedBox(height: 15),
               //Повторить
-              TextFormField(
-                onChanged: (value) {
-                  repeat = int.tryParse(value)!;
-                  setState(() {});
-                },
-                initialValue: repeat.toString(),
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.percent_rounded, size: 23),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
-                  ),
-                  hintText: 'Повторить',
-                  hintStyle: const TextStyle(fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
+              // TextFormField(
+              //   onChanged: (value) {
+              //     repeat = int.tryParse(value)!;
+              //     setState(() {});
+              //   },
+              //   initialValue: repeat.toString(),
+              //   keyboardType: TextInputType.number,
+              //   decoration: InputDecoration(
+              //     icon: const Icon(Icons.percent_rounded, size: 23),
+              //     contentPadding: const EdgeInsets.symmetric(
+              //       horizontal: 20,
+              //       vertical: 20,
+              //     ),
+              //     hintText: 'Повторить',
+              //     hintStyle: const TextStyle(fontSize: 14),
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(15),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 30),
               //Кнопка
               TextButton(
                 onPressed: () {
@@ -476,7 +478,7 @@ class BuyFormState extends State<BuyForm> {
                     debugPrint(
                         'Value Shop:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${buy.toBuyString()}');
                     buyBox.put(buyBox.values.length, buy);
-                    _incrementtotalSum(price - discount);
+                    // _incrementtotalSum(price - discount);
                   }
 
                   Navigator.pop(context);
