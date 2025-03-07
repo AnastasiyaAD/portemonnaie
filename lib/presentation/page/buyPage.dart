@@ -14,6 +14,7 @@ class _BuyPageState extends State<BuyPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: const Color.fromARGB(161, 134, 100, 235),
           automaticallyImplyLeading: false,
           title: Row(
             mainAxisAlignment:MainAxisAlignment.start, 
